@@ -1,0 +1,38 @@
+package com.example.Parkplus_App.Driver.Services.Impl;
+
+import com.example.Parkplus_App.Driver.Model.User;
+import com.example.Parkplus_App.Driver.Repositories.UserRepository;
+import com.example.Parkplus_App.Driver.Services.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+
+@Service
+public class UserServiceImpl implements UserService {
+
+    @Autowired
+    UserRepository userRepository4;
+    @Override
+    public void deleteUser(Integer userId) {
+        userRepository4.deleteById(userId);
+    }
+
+    @Override
+    public User updatePassword(Integer userId, String password) {
+        User user=userRepository4.findById(userId).get();
+        user.setPassword(password);
+        userRepository4.save(user);
+        return user;
+    }
+
+    @Override
+    public void register(String name, String phoneNumber, String password) {
+        User user=new User();
+        user.setPhoneNumber(phoneNumber);
+        user.setPassword(password);
+        user.setName(name);
+        user.setReservationList(new ArrayList<>());
+        userRepository4.save(user);
+    }
+}
